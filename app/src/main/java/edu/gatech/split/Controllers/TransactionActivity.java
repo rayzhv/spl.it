@@ -39,6 +39,9 @@ public class TransactionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addTransaction();
+                Intent cancelIntent = new Intent();
+                cancelIntent.setClass(getBaseContext(), MainActivity.class);
+                startActivity(cancelIntent);
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {

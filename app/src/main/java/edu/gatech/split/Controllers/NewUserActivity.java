@@ -44,6 +44,9 @@ public class NewUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addUser();
+                Intent cancelIntent = new Intent();
+                cancelIntent.setClass(getBaseContext(), MainActivity.class);
+                startActivity(cancelIntent);
             }
         });
 
