@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 //        membersList.add(new User("Alice", 1000 ));
 
         for (User member : membersList) {
-            cursor.addRow(new Object[] { key++, member.getName(), "$ " + member.getTotal()});
+            cursor.addRow(new Object[] { key++, member.getName(), "$ " + member.getOwe()});
         }
 
         // create a listview adapter from the cursor

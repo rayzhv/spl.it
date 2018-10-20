@@ -43,10 +43,11 @@ public class NewUserActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addUser();
-                Intent cancelIntent = new Intent();
-                cancelIntent.setClass(getBaseContext(), MainActivity.class);
-                startActivity(cancelIntent);
+                if(addUser()) {
+                    Intent cancelIntent = new Intent();
+                    cancelIntent.setClass(getBaseContext(), MainActivity.class);
+                    startActivity(cancelIntent);
+                }
             }
         });
 
@@ -55,22 +56,27 @@ public class NewUserActivity extends AppCompatActivity {
 
     }
 
-    private void addUser() {
+    private boolean addUser() {
         if(username.getText().toString().length() != 0 && total.getText().toString().length() != 0) {
             double amount = Double.parseDouble(total.getText().toString().trim());
             String un = username.getText().toString().trim();
-            if(amount !=  0 && !un.isEmpty()) {
+            if(!un.isEmpty()) {
                 String key = databaseUsers.push().getKey();
-                User newUser = new User(key, un, amount);
-//                List<Object> object = new ArrayList<Object>();
-//                userArray[0] = un;
-//                userArray[1] = amount;
+                User newUser;
+                if (amount == 0.0) {
+                    newUser = new User(key, un, amount, 0.0);
+                } else {
+                    newUser = new User(key, un, amount, Integer.MAX_VALUE); // need to change this once the model is done
+                }
                 databaseUsers.child(key).setValue(newUser);
                 Toast.makeText(this, "User Edited.", Toast.LENGTH_LONG).show();
+                return true;
             }
         } else {
             Toast.makeText(this, "Can't have empty fields.", Toast.LENGTH_LONG).show();
+            return false;
         }
+        return false;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
