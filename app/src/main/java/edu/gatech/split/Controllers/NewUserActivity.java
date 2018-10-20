@@ -50,7 +50,6 @@ public class NewUserActivity extends AppCompatActivity {
                 }
             }
         });
-
         total = (EditText) findViewById(R.id.total2);
         username = (EditText) findViewById(R.id.newUserNameText);
 
