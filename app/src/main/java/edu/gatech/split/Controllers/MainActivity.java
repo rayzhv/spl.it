@@ -78,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
+        OcrManager manager = new OcrManager();
+        manager.initAPI();
     }
 
     private void openGallery() {
