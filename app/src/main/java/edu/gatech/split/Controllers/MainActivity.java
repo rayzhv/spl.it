@@ -11,12 +11,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import edu.gatech.split.R;
 
@@ -24,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
     Uri imageUri;
     ImageView imageView;
+
+    private ArrayList<String> list;
 
     private static final String TAG = "MainActivity";
 
@@ -49,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
                 openGallery();
             }
         });
+
+        // load members into the listView
+        loadMembers();
 
 
         // Firebase initialization =========================================
@@ -110,5 +120,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadMembers() {
+
+        //shows a list of all the members in the database
+        list = new ArrayList<String>();
+        list.add("Jefferson Zhan");
+        list.add("Raymond Zhu");
+        list.add("Tony Zhang");
+        ArrayAdapter<String> membersAdapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
+        ListView shelterList = findViewById(R.id.membersView);
+        shelterList.setAdapter(membersAdapter);
+//        shelterList.setOnItemClickListener(this);
     }
 }
