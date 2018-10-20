@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // load members into the listView
-        loadMembers();
 
 
         // Firebase initialization =========================================
