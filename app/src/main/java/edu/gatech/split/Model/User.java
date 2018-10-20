@@ -7,13 +7,16 @@ package edu.gatech.split.Model;
 public class User {
     public String name;
     public double total;
+    String key;
+
 
     // Default no-arg constructor required by Firebase
     public User() {
 
     }
 
-    public User(String name, double total) {
+    public User(String key, String name, double total) {
+        this.key = key;
         this.name = name;
         this.total = total;
     }

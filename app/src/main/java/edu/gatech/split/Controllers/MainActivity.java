@@ -157,13 +157,13 @@ public class MainActivity extends AppCompatActivity {
         MatrixCursor cursor = new MatrixCursor(matrix);
 
         // dummy entries for testing purpose
-        membersList.add(new User("Jeff Zhan", 1000 ));
-        membersList.add(new User("Raymond Zhu", 50 ));
-        membersList.add(new User("Tony Zhang", 60 ));
-        membersList.add(new User("Bob", 70.50 ));
-        membersList.add(new User("Joe", 20.00 ));
-        membersList.add(new User("Matthew", -20.00 ));
-        membersList.add(new User("Alice", 1000 ));
+//        membersList.add(new User("Jeff Zhan", 1000 ));
+//        membersList.add(new User("Raymond Zhu", 50 ));
+//        membersList.add(new User("Tony Zhang", 60 ));
+//        membersList.add(new User("Bob", 70.50 ));
+//        membersList.add(new User("Joe", 20.00 ));
+//        membersList.add(new User("Matthew", -20.00 ));
+//        membersList.add(new User("Alice", 1000 ));
 
         for (User member : membersList) {
             cursor.addRow(new Object[] { key++, member.getName(), "$ " + member.getTotal()});

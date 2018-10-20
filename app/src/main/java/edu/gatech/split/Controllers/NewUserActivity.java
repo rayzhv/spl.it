@@ -58,7 +58,7 @@ public class NewUserActivity extends AppCompatActivity {
             String un = username.getText().toString().trim();
             if(amount !=  0 && !un.isEmpty()) {
                 String key = databaseUsers.push().getKey();
-                User newUser = new User(un, amount);
+                User newUser = new User(key, un, amount);
 //                List<Object> object = new ArrayList<Object>();
 //                userArray[0] = un;
 //                userArray[1] = amount;
