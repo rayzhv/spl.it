@@ -6,7 +6,8 @@ package edu.gatech.split.Model;
 
 public class User {
     public String name;
-    public double total;
+    public double paidtotal;
+    public double owe;
     String key;
 
 
@@ -15,10 +16,11 @@ public class User {
 
     }
 
-    public User(String key, String name, double total) {
+    public User(String key, String name, double paidtotal, double owe) {
         this.key = key;
         this.name = name;
-        this.total = total;
+        this.paidtotal = paidtotal;
+        this.owe = owe;
     }
 
     public String getName() {
@@ -26,6 +28,8 @@ public class User {
     }
 
     public double getTotal() {
-        return total;
+        return paidtotal;
     }
+
+    public double getOwe() { return owe; }
 }
