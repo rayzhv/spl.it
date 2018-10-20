@@ -8,6 +8,11 @@ public class User {
     public String name;
     public double total;
 
+    // Default no-arg constructor required by Firebase
+    public User() {
+
+    }
+
     public User(String name, double total) {
         this.name = name;
         this.total = total;

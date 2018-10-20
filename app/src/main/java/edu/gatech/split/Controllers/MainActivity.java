@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import edu.gatech.split.Model.Transaction;
 import edu.gatech.split.Model.User;
 import edu.gatech.split.R;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
 
     private ArrayList<User> membersList;
+    private DatabaseReference databaseUsers;
 
     private static final String TAG = "MainActivity";
 
@@ -64,18 +66,20 @@ public class MainActivity extends AppCompatActivity {
         // Firebase initialization =========================================
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
-        myRef.setValue("Hello, World!");
+        databaseUsers = FirebaseDatabase.getInstance().getReference("transactions");
 
         // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
+        databaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
+//                Transaction membersDatabase = dataSnapshot.getValue(Transaction.class);
+                ArrayList<Transaction> transactionList = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    transactionList.add(snapshot.getValue(Transaction.class));
+                }
+                Log.w(TAG, transactionList.toString());
             }
 
             @Override
@@ -84,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
+
         OcrManager manager = new OcrManager();
         manager.initAPI();
 
@@ -130,21 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadMembers() {
 
-//        //shows a list of all the members in the database
-//        list = new ArrayList<User>();
-//        list.add(new User("Jefferson Zhan", 1000.00));
-//        list.add(new User("Raymond Zhu", -50.00));
-//        list.add(new User("Tony Zhang", 50.00));
-////        list.add("Jefferson Zhan");
-////        list.add("Raymond Zhu");
-////        list.add("Tony Zhang");
-//        ArrayAdapter<User> membersAdapter =
-//                new ArrayAdapter<User>(this, android.R.layout.simple_list_item_1, list);
-//        ListView membersList = findViewById(R.id.membersView);
-//        membersList.setAdapter(membersAdapter);
-////        shelterList.setOnItemClickListener(this);
-
-
+        // used to create a unique id for each column in the listview
         int key = 0;
 
 
