@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         // Firebase initialization =========================================
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseUsers = FirebaseDatabase.getInstance().getReference("transactions");
+        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
 
         // Read from the database
         databaseUsers.addValueEventListener(new ValueEventListener() {
@@ -84,12 +84,14 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-//                Transaction membersDatabase = dataSnapshot.getValue(Transaction.class);
-                ArrayList<Transaction> transactionList = new ArrayList<>();
+                // iterate through members and add to membersList
+                membersList = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    transactionList.add(snapshot.getValue(Transaction.class));
+                    membersList.add(snapshot.getValue(User.class));
                 }
-                Log.w(TAG, transactionList.toString());
+
+                // load members into the listView
+                loadMembers();
             }
 
             @Override
@@ -102,11 +104,6 @@ public class MainActivity extends AppCompatActivity {
         OcrManager manager = new OcrManager();
         manager.initAPI();
 
-        // TODO: load members into membersList from firebase here
-        membersList = new ArrayList<>();
-
-        // load members into the listView
-        loadMembers();
     }
 
     private void openGallery() {
