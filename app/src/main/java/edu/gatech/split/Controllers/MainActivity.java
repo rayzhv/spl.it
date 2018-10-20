@@ -61,6 +61,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        FloatingActionButton fab3 = (FloatingActionButton) findViewById(R.id.fab3);
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, NewUserActivity.class));
+            }
+        });
+
+        // load members into the listView
+        loadMembers();
+
+
         // Firebase initialization =========================================
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
