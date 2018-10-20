@@ -1,6 +1,7 @@
 package edu.gatech.split.Controllers;
 
 import android.content.Intent;
+import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import edu.gatech.split.Model.User;
 import edu.gatech.split.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     Uri imageUri;
     ImageView imageView;
 
-    private ArrayList<String> list;
+    private ArrayList<User> list;
 
     private static final String TAG = "MainActivity";
 
@@ -125,14 +128,44 @@ public class MainActivity extends AppCompatActivity {
     private void loadMembers() {
 
         //shows a list of all the members in the database
-        list = new ArrayList<String>();
-        list.add("Jefferson Zhan");
-        list.add("Raymond Zhu");
-        list.add("Tony Zhang");
-        ArrayAdapter<String> membersAdapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
-        ListView shelterList = findViewById(R.id.membersView);
-        shelterList.setAdapter(membersAdapter);
+        list = new ArrayList<User>();
+        list.add(new User("Jefferson Zhan", 1000.00));
+        list.add(new User("Raymond Zhu", -50.00));
+        list.add(new User("Tony Zhang", 50.00));
+//        list.add("Jefferson Zhan");
+//        list.add("Raymond Zhu");
+//        list.add("Tony Zhang");
+        ArrayAdapter<User> membersAdapter =
+                new ArrayAdapter<User>(this, android.R.layout.simple_list_item_1, list);
+        ListView membersList = findViewById(R.id.membersView);
+        membersList.setAdapter(membersAdapter);
 //        shelterList.setOnItemClickListener(this);
+
+
+//        int key = 0;
+//
+//        final String   Name    = "Name: ";
+//        final String   Total = "Total: ";
+//
+//        final String[] matrix  = { "_id", "name", "total" };
+//        final String[] columns = { "name", "totak" };
+//        final int[]    layouts = { android.R.id.text1, android.R.id.text2 };
+//
+//        MatrixCursor cursor = new MatrixCursor(matrix);
+//
+//
+//        cursor.addRow(new Object[] { key++, AuthorName, mAuthor });
+//        cursor.addRow(new Object[] { key++, CopyrightName, mCopyright });
+//        cursor.addRow(new Object[] { key++, PriceName,
+//                "$" + formatter.format(mPrice) });
+//
+//        SimpleCursorAdapter data =
+//                new SimpleCursorAdapter(this,
+//                        R.layout.viewlist_two_items,
+//                        cursor,
+//                        columns,
+//                        layouts);
+//
+//        setListAdapter( data );
     }
 }
