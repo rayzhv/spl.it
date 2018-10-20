@@ -4,25 +4,41 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import edu.gatech.split.Model.Transaction;
+import edu.gatech.split.Model.User;
 import edu.gatech.split.R;
 
 public class TransactionActivity extends AppCompatActivity {
     DatabaseReference databaseTransactions;
     EditText total;
     EditText purpose;
-    EditText payer;
+//    EditText payer;
+    Spinner payerSpinner;
     Button submitButton;
+    
+    ArrayList<String> usersList;
+    private DatabaseReference databaseUsers;
+
+    private static final String TAG = "TransitionActivity";
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,11 +47,48 @@ public class TransactionActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         databaseTransactions = FirebaseDatabase.getInstance().getReference("transactionTest");
+        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
         Button cancelButton = (Button) findViewById(R.id.cancel);
         submitButton = (Button) findViewById(R.id.submit);
         total = (EditText) findViewById(R.id.total);
         purpose = (EditText) findViewById(R.id.purpose);
-        payer = (EditText) findViewById(R.id.payer);
+//        payer = (EditText) findViewById(R.id.payer);
+        payerSpinner = (Spinner) findViewById(R.id.spinnerPayer);
+
+        // Read from the database
+        databaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                // iterate through members and add to users
+                ArrayList<User> users = new ArrayList<>();
+                // this runs in O(n^2) time so isn't too efficient
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    users.add(snapshot.getValue(User.class));
+                }
+                for (User user : users) {
+                    if (user.getName() != "Split cost evenly") {
+                        usersList.add(user.getName());
+                    }
+                }
+
+                // add a 'split cost' option
+                usersList.add("Split cost evenly");
+
+                // load users into the dropdown menu
+                populateSpinner();
+            }
+            
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+            
+        usersList = new ArrayList<>();
+        populateSpinner();
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +113,7 @@ public class TransactionActivity extends AppCompatActivity {
         if (total.getText().toString().length()!=0 && purpose.getText().toString().length()!=0) {
             double amount = Double.parseDouble(total.getText().toString().trim());
             String subject = purpose.getText().toString().trim();
-            String user = payer.getText().toString().trim();
+            String user = String.valueOf(payerSpinner.getSelectedItem());
             if (amount != 0 && !subject.isEmpty()) {
                 String key = databaseTransactions.push().getKey();
                 Transaction txn = new Transaction(key, subject, amount, user);
@@ -91,6 +144,14 @@ public class TransactionActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    
+
+    public void populateSpinner() {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, usersList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        payerSpinner.setAdapter(dataAdapter);
     }
 
 }
