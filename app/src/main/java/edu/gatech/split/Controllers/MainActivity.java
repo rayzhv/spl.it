@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
     Uri imageUri;
     ImageView imageView;
+    OcrManager manager;
 
     private ArrayList<User> membersList;
     private DatabaseReference databaseUsers;
@@ -58,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         fab2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                openGallery();
+                //openGallery();
+                startActivity(new Intent(MainActivity.this, TestOCR.class));
             }
         });
 
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        OcrManager manager = new OcrManager();
+        manager = new OcrManager();
         manager.initAPI();
 
     }
