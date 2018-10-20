@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     Uri imageUri;
     ImageView imageView;
 
-    private ArrayList<User> list;
+    private ArrayList<User> membersList;
 
     private static final String TAG = "MainActivity";
 
@@ -59,9 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 openGallery();
             }
         });
-
-        // load members into the listView
-        loadMembers();
 
 
         // Firebase initialization =========================================
@@ -89,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
         });
         OcrManager manager = new OcrManager();
         manager.initAPI();
+
+        // TODO: load members into membersList from firebase here
+        membersList = new ArrayList<>();
+
+        // load members into the listView
+        loadMembers();
     }
 
     private void openGallery() {
@@ -144,19 +147,29 @@ public class MainActivity extends AppCompatActivity {
 
         int key = 0;
 
-        final String   Name    = "Name: ";
-        final String   Total = "Total: ";
 
+        // specify columns to be used in the matrix
         final String[] matrix  = { "_id", "name", "total" };
         final String[] columns = { "name", "total" };
         final int[]    layouts = { android.R.id.text1, android.R.id.text2 };
 
         MatrixCursor cursor = new MatrixCursor(matrix);
 
+        // dummy entries for testing purpose
+        membersList.add(new User("Jeff Zhan", 1000 ));
+        membersList.add(new User("Raymond Zhu", 50 ));
+        membersList.add(new User("Tony Zhang", 60 ));
+        membersList.add(new User("Bob", 70.50 ));
+        membersList.add(new User("Joe", 20.00 ));
+        membersList.add(new User("Matthew", -20.00 ));
+        membersList.add(new User("Alice", 1000 ));
 
-        cursor.addRow(new Object[] { key++, Name, "Test" });
-        cursor.addRow(new Object[] { key++, Total, "100" });
+        for (User member : membersList) {
+            cursor.addRow(new Object[] { key++, member.getName(), "$ " + member.getTotal()});
+        }
 
+        // create a listview adapter from the cursor
+        // NOTE: gives a deprecation warning
         SimpleCursorAdapter data =
                 new SimpleCursorAdapter(this,
                         R.layout.listview_layout,

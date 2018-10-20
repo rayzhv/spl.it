@@ -74,7 +74,7 @@
 
     <ListView
         android:id="@+id/membersView"
-        android:layout_width="325dp"
+        android:layout_width="291dp"
         android:layout_height="328dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"

@@ -12,4 +12,12 @@ public class User {
         this.name = name;
         this.total = total;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getTotal() {
+        return total;
+    }
 }
