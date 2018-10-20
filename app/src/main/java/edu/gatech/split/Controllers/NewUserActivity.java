@@ -28,7 +28,7 @@ public class NewUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
 
-        databaseUsers= FirebaseDatabase.getInstance().getReference("transactions");
+        databaseUsers= FirebaseDatabase.getInstance().getReference("users");
 
         Button cancelButton = (Button) findViewById(R.id.cancel2);
         cancelButton.setOnClickListener(new View.OnClickListener() {
