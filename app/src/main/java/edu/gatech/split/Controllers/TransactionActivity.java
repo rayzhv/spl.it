@@ -21,6 +21,7 @@ public class TransactionActivity extends AppCompatActivity {
     DatabaseReference databaseTransactions;
     EditText total;
     EditText purpose;
+    EditText payer;
     Button submitButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +30,12 @@ public class TransactionActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        databaseTransactions = FirebaseDatabase.getInstance().getReference("transactions");
+        databaseTransactions = FirebaseDatabase.getInstance().getReference("transactionTest");
         Button cancelButton = (Button) findViewById(R.id.cancel);
         submitButton = (Button) findViewById(R.id.submit);
         total = (EditText) findViewById(R.id.total);
         purpose = (EditText) findViewById(R.id.purpose);
+        payer = (EditText) findViewById(R.id.payer);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,9 +60,10 @@ public class TransactionActivity extends AppCompatActivity {
         if (total.getText().toString().length()!=0 && purpose.getText().toString().length()!=0) {
             double amount = Double.parseDouble(total.getText().toString().trim());
             String subject = purpose.getText().toString().trim();
+            String user = payer.getText().toString().trim();
             if (amount != 0 && !subject.isEmpty()) {
                 String key = databaseTransactions.push().getKey();
-                Transaction txn = new Transaction(key, subject, amount);
+                Transaction txn = new Transaction(key, subject, amount, user);
                 databaseTransactions.child(key).setValue(txn);
                 Toast.makeText(this, "Transaction recorded.", Toast.LENGTH_LONG).show();
             }
