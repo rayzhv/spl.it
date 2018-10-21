@@ -24,7 +24,8 @@
             android:name=".Controllers.TransactionActivity"
             android:label="@string/title_activity_new_txn"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Controllers.NewUserActivity"></activity>
+        <activity android:name=".Controllers.NewUserActivity" />
+        <activity android:name=".Controllers.TestOCR"></activity>
     </application>
 
 </manifest>
